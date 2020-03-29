@@ -25,7 +25,7 @@ SECRET_KEY = 'i4l(r0opbof(7)%j=-ys5i)!pm%&)bm!^+k@6(tuhuk2y#)%6k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ "https://whispering-bayou-39022.herokuapp.com/",'localhost','127.0.0.1' ]
+ALLOWED_HOSTS = [ "whispering-bayou-39022.herokuapp.com/",'localhost','127.0.0.1' ]
 
 
 # Application definition
