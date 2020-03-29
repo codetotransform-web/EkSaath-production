@@ -1,1 +1,1 @@
-web : gunicorn EkSaath.wsgi
+web : gunicorn EkSaath.wsgi --log-file -
