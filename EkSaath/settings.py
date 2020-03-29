@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+import django_heroku
+
 
 import os
 
@@ -148,3 +150,7 @@ TWILIO_AUTH_TOKEN = '28f23690c4ee003ed9210d57e4dfe979'
 
 
 CURRENT_USER = None;
+
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
