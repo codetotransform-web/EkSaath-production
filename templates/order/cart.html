@@ -1,0 +1,134 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+{% block title %} : Cart{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid row p-0 ml-0" style="height:8vh;background-color: black;color :white;">
+    <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.5vh;font-weight: 700;color:aqua">Ek Saath</div>
+    <div class="h5 col-4 text-center h-100 d-flex justify-content-center" style="align-items: center;">Home</div>
+    <div class="col-4 d-flex justify-content-end h-100" style="align-items: center;">
+    
+    
+        <a href="{% url 'cart' id=customer.id %}" style="height: 60%;">
+            <img src="{% static 'Images/cart.white.png' %}"  style="height: 100%;">
+        </a>
+        <span id="no_of_cart_items" class="badge badge-danger">{{no_of_cart_items}}</span>
+        
+        <a href="{% url 'dashboard' id=customer.id %}" class="w-100 d-flex justify-content-end ml-2" style="height: 70%;">
+            <img  class="h-100" src="{% static 'Images/Account.white.png' %}" >
+        </a>
+        
+        
+    </div>
+</div>
+
+
+{% block content %}
+
+
+<!--Product List-->
+<div class="container-fluid d-flex flex-row justify-content-around flex-wrap rounded mt-2" style="width: 100vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+    <div class="container  text-center mb-2">Hello , <span class="h3">{{customer.full_name}}</span></div>
+    <div class="container d-flex justify-content-around">
+
+        <a href="{% url 'home_personal' id=customer.id %}" class="btn bg-warning d-block mr-1" style="width: 60vw">Back to Shopping</a>
+        <a class="btn d-block bg-primary ml-1" href="{% url 'logout' id=customer.id  %}" style="color: black">Logout</a>
+    </div>
+
+    <div class="container p-0" style="width: 90vw">
+        <div class="btn bg-danger w-100 mt-2">Your Cart</div>
+    </div>
+    
+    
+    {% for item in cart_items %}
+    
+    <div id="entry_{{items.product.id}}" class="row ml-0 rounded my-1 entry_{{items.product.id}}" style="height: 30vw;">
+    
+        <!--Image-->
+        {% if item.product.image %}
+        <div class="col-3" style="height: 100%;">
+            <img class="rounded" src="{{item.product.image.url}}" style="height: 100%;width:100%;">
+        </div>
+        {% else %}
+        <div class="col-3" style="height: 100%;">
+            <img class="rounded" src="{% static 'Images/no_image.png' %}"style="height: 100%;width:100%;">
+        </div>
+        {% endif %}
+        
+        <!--Product Details-->
+        <div classs="col-6 p-0" style="width: 50%;overflow: hidden;height: 100%;">
+        
+            <!--Product Name-->
+            <div class="text-center d-flex w-100" style="align-items:center;height: 20%;line-height: 20%;font-size: 4vw;font-weight: 700;color:black;">{{ item.product.name | truncatechars:18 }} </div>
+            
+            <!--Price and Quantity-->
+            
+            <div class="row ml-0 w-100 d-flex" style="width: 100%;align-items: center;height: 20%;" >
+                <div class="col-6 d-flex justify-content-end pl-1" style="font-size:3.5vw;font-weight:700;">{{item.product.quantity}}
+                </div> 
+                <div class="col-6 d-flex justify-content-start pr-1" style="font-size:3.5vw;font-weight:700;">₹<span id="price_{{item.product.id}}">
+                {{item.product.price}}</span></div>
+            </div>
+            
+            <!--Category of Product-->
+            <div class="row ml-0 w-100" style="height: 20%;" >
+                <div class="col-4 d-flex justify-content-start py-auto" style="align-items: center;font-size: 3vw;font-weight:700;">Category</div>
+                <div class="col-8 py-auto d-flex justify-content-start" style="align-items: center;font-size: 3vw;font-weight:700;">{{item.product.category}}</div>
+            </div>
+            
+            <!--Add or remove Product-->
+            <div class="row ml-0 w-100 my-0" style="height: 20%;padding-bottom: 0.5vh">
+                <div class="col-8 d-flex justify-content-around p-0 h-100" >
+                    <div  onclick="substract_1('{{item.product.id}}','{{customer.id}}')" class="btn bg-danger px-3 pt-1" style="height: 100%;font-size:2.5vw;font-weight:700;">-</div>
+                    <div onclick="add_1('{{item.product.id}}','{{customer.id}}')" class="btn bg-info px-3 pt-1" style="height: 100%;font-size:2.5vw;font-weight:700;">+</div>
+                </div>
+                <div id="qnt_{{item.product.id}}" class="col-4 d-flex justify-content-center p-0" style="align-items: center;font-size:4.5vw;font-weight:700;">{{item.quantity}}</div>
+                
+                <div class="col-4 d-flex justify-content-center py-auto" style="align-items: center;font-size:3vw;font-weight:700;">{{item.quantity}}</div>
+            </div>
+
+            <!--Delete Button-->
+            <div onclick="del('{{item.product.id}}','{{customer.id}}')" class="container" style="height: 20%;">
+                <div class="btn bg-warning w-100 d-flex justify-content-center" style="align-items: center;height: 100%;font-size: 3vw;font-weight: 700">Delete</div>
+            </div>
+            
+
+
+        </div>
+        <div class="col-3 px-auto d-flex flex-column justify-content-center">
+            <div class="w-100" style="font-size: 3vw;font-weight: 700">Effective Price</div>
+            <div class="w-100" style="font-size: 4vw;font-weight: 700">
+            ₹<span id="eq_price_{{item.product.id}}">{{item.product.price|mul:item.quantity | truncatechars:6}}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    
+</div>
+
+
+<!-- Order Now Button -->
+{% if no_of_cart_items is 0 %}
+
+{% else %}
+
+<a href = "{% url 'unconfirmed_order' customer_id=customer.id %}" id="order_now_button"  class=" d-block bg-info btn mt-4 mb-4 py-2 rounded mx-auto rounded px-auto mx-auto" style=" width: 90vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+    Order Now
+</a>
+{% endif %}
+{% endblock content %}
+<!-- 
+<script type="text/javscript">
+    var = {{product.id}}
+</script> -->
+
+
+
+<script type="text/javascript" src="{% static 'cart.js' %}"></script>
+{% endblock body %}

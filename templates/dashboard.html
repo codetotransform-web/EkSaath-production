@@ -1,0 +1,38 @@
+{% extends 'personal_home.html' %}
+
+
+{% block content %}
+
+<div class="container card mt-1 rounded" style="width: 90vw;box-shadow: -4px -3px 6px  white,4px 3px 6px 2px #888888;">
+    <div class="h4 p-2 text-center">Hello , <span class="h2">{{user.full_name | truncatechars:16}}</span> </div>
+    
+    <div class="container-fluid row  my-1" >
+        <div class="col-4 h6 my-auto d-flex justify-content-end">Name : </div>
+        <div class="col-8 h4 ml-0 d-flex justify-content-start">{{user.full_name}}</div>
+    </div>
+    <div class="container-fluid row my-1" >
+        <div class="col-4 h6 my-auto d-flex justify-content-end" style="overflow: hidden;">Phone No:</div>
+        <div class="col-8 h4 d-flex justify-content-start">{{user.mob_no}}</div>
+    </div>
+    <div class="container-fluid row my-1" >
+        <div class="col-4 h6 my-auto d-flex justify-content-end">City : </div>
+        <div class="col-8 h4 d-flex justify-content-start">{{user.city}}</div>
+    </div>
+    <div class="container-fluid row my-1" >
+        <div class="col-4 h6 my-auto d-flex justify-content-end">Address : </div>
+        <div class="col-8 h4 d-flex justify-content-start">{{user.colony}}</div>
+    </div>
+</div>
+
+
+<div class="container d-flex justify-content-between mt-2" style="width: 90vw">
+    <div class="btn bg-info mt-1 w-25" style="box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">Edit</div>
+    <div class="btn bg-danger mt-1" style="box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">Order History</div>
+</div>
+
+<a href="{% url 'logout' id=id %}" class="container mt-4 bg-warning mx-auto py-3 h5 text-center rounded d-block" style="box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;width: 80vw">
+    Logout
+</a>
+
+
+{% endblock content %}

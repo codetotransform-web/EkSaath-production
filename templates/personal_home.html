@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} : Home{% endblock %}
+
+{% block body%}
+<!--Nav Bar-->
+<div class="container-fluid row p-0 ml-0" style="height:8vh;background-color: black;color :white;">
+    <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.5vh;font-weight: 700;color:aqua">Ek Saath</div>
+    <div class="h5 col-4 text-center h-100 d-flex justify-content-center" style="align-items: center;">Home</div>
+    <div class="col-4 d-flex justify-content-end h-100" style="align-items: center;">
+    
+    
+        <a href="{% url 'cart' id=id %}" style="height: 60%;">
+            <img src="{% static 'Images/cart.white.png' %}"  style="height: 100%;">
+        </a>
+        <span class="badge badge-danger">{{no_of_cart_items}}</span>
+        
+        <a href="{% url 'dashboard' id=id %}" class="w-100 d-flex justify-content-end ml-2" style="height: 70%;">
+            <img  class="h-100" src="{% static 'Images/Account.white.png' %}" >
+        </a>
+        
+        
+    </div>
+</div>
+<!-- <div class="container bg-danger h4">Hello {{user.id}}</div> -->
+
+{% block content %}
+<!--Category List-->
+<div class="container-fluid d-flex justify-content-around flex-wrap">
+    
+    {% for cat in categories %}
+    <div class="card p-1 m-2 rounded" style="width: 40vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+        {% if cat.image %}
+        <div class="card-image_top" style="height: 80%;">
+            <img class="rounded" src="{{cat.image.url}}" style="height: 100%;width:100%;">
+        </div>
+        {% endif %}
+        <div classs="card-body" style="height: 20%">
+            <a href="{% url 'personal_categories' category_id=cat.id customer_id=id %}" class="card-title text-center" style="font-size: 3vw;font-weight: 700;color:black">{{ cat.name }}</a>
+        </div>
+        
+    </div>
+    {% endfor %}
+    
+    
+</div>
+{% endblock content %}
+
+{% endblock %}

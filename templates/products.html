@@ -1,0 +1,175 @@
+
+
+
+
+{% extends 'home.html' %}
+{% load static %}
+
+{% block extjs %}
+
+{% endblock extjs %}
+
+
+{% block title %} : Products{% endblock %}
+
+{% block navbar %}
+
+    {% if id %}
+    <!--Nav Bar-->
+    <div class="container-fluid row p-0 ml-0" style="height:8vw;background-color: black;color :white;">
+        <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.2vw;font-weight: 700;color:aqua">Ek Saath</div>
+        <div class="h5 col-4 text-center h-100 d-flex justify-content-center" style="align-items: center;">Home</div>
+        <div class="col-4 d-flex justify-content-end h-100" style="align-items: center;">
+            
+            <a href="{% url 'cart' id=id %}" style="height: 60%;">
+            <img src="{% static 'Images/cart.white.png' %}"  style="height: 100%;">
+            </a>
+                <span id="bag_{{id}}" class="badge badge-danger">{{no_of_cart_items}}</span>
+            <a href="{% url 'dashboard' id=id %}" class="w-100 d-flex justify-content-end mr-2" style="height: 70%;">
+                <img  class="h-100" src="{% static 'Images/Account.white.png' %}" >
+            </a>
+            
+            
+            
+            <!--
+            <img src="{% static 'Images/cart.white.png' %}" style="height: 60%;">
+            <span class="badge badge-danger">10</span>
+            <img class="ml-4" src="{% static 'Images/Account.white.png' %}" style="height: 70%">
+            
+            -->
+            
+            
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid row p-0 ml-0" style="height:8vw;background-color: black;color :white;">
+        <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.2vh;font-weight: 700;color:aqua">Ek Saath</div>
+        <div class="h5 col-4 text-center h-100 d-flex justify-content-center" style="align-items: center;">Home</div>
+        <div class="col-4 d-flex justify-content-end h-100" style="align-items: center;">
+            <a href="{% url 'verify_mob_no_customer' %}" style="font-size: 3.2vw;color:aqua;font-weight: 700" class="mr-1">LogIn | </a>
+            <a href="{% url 'verify_mob_no_customer' %}" style="font-size: 3.2vw;color:aqua;font-weight: 700" class="mr-1">Sign Up</a>
+            
+            
+            <!--
+            <img src="{% static 'Images/cart.white.png' %}" style="height: 60%;">
+            <span class="badge badge-danger">10</span>
+            <img class="ml-4" src="{% static 'Images/Account.white.png' %}" style="height: 70%">
+            
+            -->
+            
+            
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock navbar %}
+
+
+
+
+
+{% block content %}
+
+    {% if id %}
+    <div class="container-fluid d-flex justify-content-around flex-wrap">
+        
+        {% for product in product_list %}
+        <div class="card p-1 m-2 rounded" style="height: 40vh;width: 40vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+            {% if product.image %}
+            <div class="card-image_top" style="height: 40%;">
+                <img class="rounded" src="{{product.image.url}}" style="height: 100%;width:100%;">
+            </div>
+            {% else %}
+            <div class="card-image_top" style="height: 40%;">
+                <img class="rounded" src="{% static 'Images/no_image.png' %}"style="height: 100%;width:100%;">
+            </div>
+            {% endif %}
+            <div classs="card-body" style="height: 60%">
+            
+                <!--Product Name-->
+                <a href="#" class=" text-center d-flex" style="align-items:center;height: 20%;line-height: 20%;font-size: 4.8vw;font-weight: 700;color:black;">{{ product.name | truncatechars:12}} </a>
+                
+                <!--Price and Quantity-->
+                
+                <div class="row ml-0 w-100 d-flex" style="align-items: center;height: 20%" >
+                    <div class="col-6 d-flex justify-content-start p-0 pl-1" style="font-size:4.5vw;font-weight:700;">{{product.quantity}}
+                    </div> 
+                    <div class="col-6 d-flex justify-content-end p-0 pr-1" style="font-size:4.5vw;font-weight:700;">₹{{product.price}}</div>
+                </div>
+                
+                <!--Add or Remove Product-->
+                <div class="row ml-0 h-25 w-100 p-0 my-0" >
+                    <div class="col-8 d-flex justify-content-around p-0 h-100" >
+                        <div onclick="substract_1('{{product.id}}')" class="btn bg-danger px-3 py-auto" style="font-size:2.5vw;font-weight:700;">-</div>
+                        <div onclick="add_1('{{product.id}}')" class="btn bg-info px-3 py-auto" style="font-size:2.5vw;font-weight:700;">+</div>
+                    </div>
+                    <div id="qnt_{{product.id}}" class="col-4 d-flex justify-content-center p-0" style="font-size:3vw;font-weight:700;">0</div>
+                </div>
+                
+                <!--Add to Bag Button-->
+                <button id="atb_{{product.id}}" onclick="add_to_bag('{{id}}','{{product.id}}')" class="container-fluid w-100 btn bg-warning  py-auto mt-1" style="font-size: 3vw;font-weight: 700;height: 35%;">Add to Bag</button>
+            </div>
+            
+        </div>
+        {% endfor %}
+        
+        
+    </div>
+    
+    {% else %}
+    <div class="container-fluid d-flex justify-content-around flex-wrap">
+        
+        {% for product in product_list %}
+        <div class="card p-1 m-2 rounded" style="width: 40vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+            {% if product.image %}
+            <div class="card-image_top" style="height: 40%;">
+                <img class="rounded" src="{{product.image.url}}" style="height: 100%;width:100%;">
+            </div>
+            {% else %}
+            <div class="card-image_top" style="height: 40%;">
+                <img class="rounded" src="{% static 'Images/no_image.png' %}"style="height: 100%;width:100%;">
+            </div>
+            {% endif %}
+            <div classs="card-body" style="height: 60%">
+            
+                <!--Product Name-->
+                <a href="{% url 'verify_mob_no_customer' %}" class="card-title text-center d-flex" style="align-items:center;height: 20%;line-height: 20%;font-size: 4.8vw;font-weight: 700;color:black;">{{ product.name | truncatechars:12}} </a>
+                
+                <!--Price and Quantity-->
+                
+                <div class="row ml-0 w-100 d-flex" style="align-items: center;height: 20%" >
+                    <div class="col-6 d-flex justify-content-start p-0 pl-1" style="font-size:4.5vw;font-weight:700;">{{product.quantity}}
+                    </div> 
+                    <div class="col-6 d-flex justify-content-end p-0 pr-1" style="font-size:4.5vw;font-weight:700;">₹{{product.price}}</div>
+                </div>
+                
+                <!--Add or Remove Product-->
+                <div class="row ml-0 h-25 w-100 p-0 my-0" >
+                    <div class="col-8 d-flex justify-content-around p-0 h-100" >
+                        <div class="btn bg-danger px-3 py-auto" style="font-size:2.5vh;font-weight:700;">-</div>
+                        <div class="btn bg-info px-3 py-auto" style="font-size:2.5vh;font-weight:700;">+</div>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center p-0" style="font-size:3vw;font-weight:700;">0</div>
+                </div>
+                
+                <!--Add to Bag Button-->
+                <a href="{% url 'verify_mob_no_customer' %}" class="container-fluid w-100 h-25 btn bg-warning  py-auto mt-1 d-block" style="font-size: 2vw;font-weight:700">Add to Bag</a>
+            </div>
+            
+        </div>
+        {% endfor %}
+        
+        
+    </div>
+    
+    {% endif %}
+    
+    <script type="text/javascript" src="{% static 'products.js'%}"></script>
+    
+{% endblock content %}
+
+
+
+
+
+

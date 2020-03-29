@@ -1,0 +1,67 @@
+
+{% extends 'upload/home.html' %}
+{% load static %}
+{% block title %} : Products{% endblock %}
+
+
+
+{% block content %}
+
+
+<!--Product List-->
+<div class="container d-flex flex-row justify-content-around flex-wrap rounded mt-2" style="width: 95vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+    <div class="container  text-center mb-2">Hello , <span class="h3">{{uploader.full_name}}</span></div>
+    <div class="container d-flex justify-content-around">
+
+        <a href="{% url 'upload' id=id %}" class="btn bg-warning d-block mr-1" style="width: 60vw">Back to Upload</a>
+        <a class="btn d-block bg-primary ml-1" href="{% url 'uploader_logout' id=id %}" style="color: black">Logout</a>
+    </div>
+
+    <div class="container p-0" style="width: 90vw">
+        <div class="btn bg-danger w-100 mt-2">Your Uploads</div>
+    </div>
+    {% for product in products %}
+    <div class="row ml-0 rounded my-1" >
+        {% if product.image %}
+        <div class="col-3" style="height: 100%;">
+            <img class="rounded" src="{{product.image.url}}" style="height: 100%;width:100%;">
+        </div>
+        {% else %}
+        <div class="col-3" style="height: 100%;">
+            <img class="rounded" src="{% static 'Images/no_image.png' %}"style="height: 100%;width:100%;">
+        </div>
+        {% endif %}
+        <div classs="col-6 p-0" style="width: 50%;overflow: hidden;height: 100%;">
+        
+            <!--Product Name-->
+            <div class="text-center d-flex w-100" style="align-items:center;height: 30%;line-height: 20%;font-size: 4.8vw;font-weight: 700;color:black;">{{ product.name | truncatechars:18 }} </div>
+            
+            <!--Price and Quantity-->
+            
+            <div class="row ml-0 w-100 d-flex" style="width: 100%;align-items: center;height: 30%;" >
+                <div class="col-6 d-flex justify-content-start pl-1" style="font-size:4.5vw;font-weight:700;">{{product.quantity}}
+                </div> 
+                <div class="col-6 d-flex justify-content-end pr-1" style="font-size:4.5vw;font-weight:700;">₹{{product.price}}</div>
+            </div>
+            
+            <!--Category of Product-->
+            <div class="row ml-0 w-100 mt-1" style="height: 30%;" >
+                <div class="col-4 d-flex justify-content-start" style="align-items: center;font-size: 3vw;font-weight:700;">Category : </div>
+                <div class="col-8 py-auto" style="align-items: center;font-size: 3vw;font-weight:700;">{{product.category}}</div>
+            </div>
+            
+
+
+        </div>
+        <div class="col-3 px-auto">
+            <div class="btn bg-info">Edit</div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container-fluid row p-0 ml-0" style="height:8vh;background-color: black;color :white;">
+    <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.5vh;font-weight: 700;color:aqua">Ek Saath</div>
+    
+</div>
+
+<div class="container p-1 m-2 rounded mx-auto" style="box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+   <form class="card form-control" action="" method="POST">
+        {% csrf_token %}
+        {% if msg %}
+        <div class="container py-4 w-75 rounded text-center" style="border:1px solid red;color: red">{{msg}}</div>
+        {% endif %}
+        
+        <div class="container my-2 mx-0 p-0 text-center" name="mob_no">
+            Mobile No : <div class="h4">{{mob_no}}</div>
+        </div>
+        <div class="container my-2 mx-0 p-0" >
+            <input class="form-control" name="otp" type="number" placeholder="Enter Otp sent to your mobile number">
+        </div>
+        
+        <button type="submit" class="btn bg-info">Verify Otp</button>
+   </form>
+</div>
+
+{% endblock %}

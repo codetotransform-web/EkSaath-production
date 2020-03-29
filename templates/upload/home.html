@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} : Home{% endblock %}
+
+{% block body%}
+<!--Nav Bar-->
+<div class="container-fluid row p-0 ml-0" style="height:8vh;background-color: black;color :white;">
+    <div class="col-4 pl-1 h-100 d-flex" style="align-items:center;font-size:3.5vh;font-weight: 700;color:aqua">Ek Saath</div>
+    <div class="h5 col-4 text-center h-100 d-flex justify-content-center" style="align-items: center;">Upload Page</div>
+    <div class="col-4 d-flex justify-content-end h-100" style="align-items: center;">
+        
+        <a href="{% url 'upload_list' id=id %}" class="w-100 d-flex justify-content-end mr-2" style="height: 70%;">
+            <img  class="h-100" src="{% static 'Images/Account.white.png' %}" >
+        </a>
+        
+        
+    </div>
+</div>
+<!-- <div class="container bg-danger h4">Hello {{user.id}}</div> -->
+
+{% block content %}
+<!--Upload Form-->
+<div class="container p-1 m-2 rounded mx-auto" style="width: 95vw;box-shadow: -4px -3px 6px 2px white,4px 3px 6px 2px #888888;">
+    <form class="form-control" action="" method="POST">
+         {% csrf_token %}
+         {% if msg %}
+         <div class="container py-4 w-75 rounded text-center" style="border:1px solid red;color: red">{{msg}}</div>
+         {% endif %}
+         
+         {{ form.as_p }}
+         <!-- {% for field in form %}
+         
+         <div class="container my-2 mx-0 p-0">{{field}}</div>
+         
+         
+         {% endfor %} -->
+         <div class="w-100 d-flex justify-content-between">
+            <button type="submit" class="btn bg-info">Upload</button>
+            <a class="btn bg-danger" href="{% url 'upload_list' id=id %}" style="color: black;">See all the Uploads</a>
+         </div>
+         
+    </form>
+ </div>
+
+{% endblock content %}
+
+{% endblock %}
